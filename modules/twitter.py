@@ -16,8 +16,11 @@ def twitter(phenny, input):
     resp = conn.getresponse()
     conn.close()
     request = json.loads(resp.read())
-    phenny.say('@%s: %s [%s]' % (screen_name, request['status']['text'],
-                                 request['status']['created_at']))
+    if 'status' in request:
+        phenny.say('@%s: %s [%s]' % (screen_name, request['status']['text'],
+                                     request['status']['created_at']))
+    else:
+        phenny.say('I cannot find anything about @%s.' % screen_name)
 
 twitter.commands = ['twitter']
 twitter.example = '.twitter <name>'
